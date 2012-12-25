@@ -39,3 +39,6 @@ body {
 	height: 50px;
 	border-radius: 5px;
 }
+#board td.selected {
+	border-color: red;
+}

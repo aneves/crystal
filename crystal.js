@@ -60,11 +60,18 @@
 						var colour = crystal.getRandomColour();
 						td.setAttribute('style', 'background-color: ' + colour + ';');
 						td.setAttribute('data-color', colour);
+						td.setAttribute('data-row', row);
+						td.setAttribute('data-col', col);
 						tr.appendChild(td);
 					}
 					table.appendChild(tr);
 				}
 				crystal.log('Initialized board of ' + crystal.settings.width + "x" + crystal.settings.height + ".");
+				$('#board').on('click', 'td', function() {
+					var row = this.getAttribute('data-row'),
+						col = this.getAttribute('data-col');
+					crystal.log('clicked [' + row + '-' + col + ']');
+				});
 			}
 		};
 }(jQuery));

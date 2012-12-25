@@ -34,7 +34,7 @@
 				window.console.log("crystal: " + msg);
 				var li = document.createElement("li");
 				li.textContent = msg;
-				output.appendChild(li);
+				crystal.objs.output.prepend(li);
 			},
 			getRandomColour : function() {
 				var index = crystal.objs.rng.next(crystal.settings.colours.length),

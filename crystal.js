@@ -9,12 +9,11 @@
 	});
 	var Rng = function() {
 			this.offset = 0;
-			this.step = 13;
+			this.step = 10;
 			this.next = function(max) {
 				var rand = Date.now(),
 					number;
 				rand += this.offset;
-				// Primes ftw.
 				this.offset += this.step;
 				number = rand % +max;
 				return number;
@@ -24,7 +23,7 @@
 			settings: {
 				width: 5,
 				height: 5,
-				colours: ["red", "green", "blue"]
+				colours: ["#EECC88", "#CCEE88", "#CC88EE"]
 			},
 			objs: {
 				output: $('ul#output'),
@@ -59,8 +58,8 @@
 					for(col=0; col<crystal.settings.width; col++) {
 						td = document.createElement('td');
 						var colour = crystal.getRandomColour();
-						td.textContent = "Elem " + row + "-" + col + "(" + colour + ")";
-						//td.setAttr('data-color', colour);
+						td.setAttribute('style', 'background-color: ' + colour + ';');
+						td.setAttribute('data-color', colour);
 						tr.appendChild(td);
 					}
 					table.appendChild(tr);

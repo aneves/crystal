@@ -66,12 +66,12 @@
 			mergeWithNeighbours: function(cell) {
 				var row = +cell.dataset.row,
 					col = +cell.dataset.col;
-				return crystal.mergeWithNeighbour(cell, row - 1, col - 1)
-						|| crystal.mergeWithNeighbour(cell, row - 1, col + 1)
-						|| crystal.mergeWithNeighbour(cell, row + 1, col - 1)
-						|| crystal.mergeWithNeighbour(cell, row + 1, col + 1);
+				return crystal.mergeWithDiagonal(cell, row - 1, col - 1)
+						|| crystal.mergeWithDiagonal(cell, row - 1, col + 1)
+						|| crystal.mergeWithDiagonal(cell, row + 1, col - 1)
+						|| crystal.mergeWithDiagonal(cell, row + 1, col + 1);
 			},
-			mergeWithNeighbour: function(cell, row, col) {
+			mergeWithDiagonal: function(cell, row, col) {
 				var data = cell.dataset,
 					color = data.color,
 					neighbour;
@@ -94,7 +94,34 @@
 				if(otherCornerB.dataset.color !== color) {
 					return false;
 				}
-				crystal.log("Want to merge " + data.row + "-" + data.col + " with " + row + "-" + col);
+				crystal.log("Merging from " + data.row + "-" + data.col + " to " + row + "-" + col + ".");
+				var topRow = +data.row,
+					topCol = +data.col,
+					cells = [cell, neighbour, otherCornerA, otherCornerB],
+					index,
+					cell,
+					$cell;
+				if(row < topRow) {
+					topRow = row;
+				}
+				if(col > topCol) {
+					topCol = col;
+				}
+				topCol = topCol.toString();
+				topRow = topRow.toString();
+				for(index in cells) {
+					cell = cells[index];
+					data = cell.dataset;
+					$cell = $(cell);
+					if(data.row !== topRow || data.col !== topCol) {
+						$cell.hide();
+						cell.dataset.color = undefined;
+					} else {
+						$cell.show();
+						cell.setAttribute('colspan', 2);
+						cell.setAttribute('rowspan', 2);
+					}
+				}
 				return true;
 			},
 			init: function() {
@@ -108,7 +135,7 @@
 				var table = document.createElement("table"),
 					$table = $(table);
 				if (!table.dataset) {
-					crystal.log("This browser does not support dataset.");
+					crystal.log("This browser does not support dataset. (Seriously? In this day and age...)");
 					return;
 				}
 				document.getElementById('board').appendChild(table);
